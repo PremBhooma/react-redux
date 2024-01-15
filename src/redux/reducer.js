@@ -1,7 +1,10 @@
-import { DECREMENT, INCREMENT } from "./actionTypes";
+import { DECREMENT, GET_TODO_FAILURE, GET_TODO_REQUEST, GET_TODO_SUCCESS, INCREMENT } from "./actionTypes";
 
 const initialState = {
-    count: 0
+    count: 0,
+    todos: [],
+    isLoading: false,
+    isError: false
 }
 
 export const reducer = (state = initialState, { type, payload }) => {
@@ -18,6 +21,29 @@ export const reducer = (state = initialState, { type, payload }) => {
                 count: state.count - payload,
             }
         }
+
+        case GET_TODO_REQUEST: {
+            return {
+                ...state,
+                isLoading: true,
+            }
+        }
+
+        case GET_TODO_SUCCESS: {
+            return {
+                ...state,
+                todos: payload,
+                isLoading: false
+            }
+        }
+
+        case GET_TODO_FAILURE: {
+            return {
+                ...state,
+                isError: true,
+            }
+        }
+
         default: {
             return state;
         }
